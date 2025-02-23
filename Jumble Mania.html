@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jumble Mania Game</title>
+  <style>
+    body {
+    
+    font-family: 'Arial', sans-serif;
+    background-image: url('https://i.pinimg.com/736x/12/c8/1b/12c81b1fa6d9d390141eebb2f48059ae.jpg');
+    background-repeat: no-repeat; /* Ensures the background image does not repeat */
+    background-size: cover; /* Ensures the image covers the entire screen */
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    }
+    nav {
+            background-color: #333;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav ul {
+            list-style-type: none;
+            display: flex;
+            margin: 0;
+        }
+
+        nav li {
+            margin: 0 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            text-transform: uppercase;
+        }
+
+        nav a:hover {
+            color: #ff9800;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            border: none;
+            cursor: pointer;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Login Button */
+        .login-btn {
+            background-color: #4CAF50; /* Green background */
+            color: white; /* White text */
+            transition: background-color 0.3s ease;
+        }
+
+        .login-btn a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+        }
+
+        .login-btn:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+
+        /* Sign Up Button */
+        .signup-btn {
+            background-color: #008CBA; /* Blue background */
+            color: white; /* White text */
+            transition: background-color 0.3s ease;
+        }
+
+        .signup-btn a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+        }
+
+        .signup-btn:hover {
+            background-color: #007bb5; /* Darker blue on hover */
+        }
+  
+    .game-container {
+      background-color: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 300px;
+      margin: 100px auto;
+    }
+
+    h1 {
+      font-size: 24px;
+      color: #333;
+    }
+
+    .timer {
+      font-size: 18px;
+      color: #ff0000;
+      margin: 10px 0;
+    }
+
+    .letters-container {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+    }
+
+    .letters-container div {
+      font-size: 24px;
+      margin: 5px;
+      padding: 10px;
+      background-color: #f0f0f0;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    input {
+      padding: 10px;
+      font-size: 16px;
+      margin-top: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-top: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .result p {
+      font-size: 18px;
+    }
+
+    .result {
+      margin-top: 20px;
+    }
+
+    /* Final result box and animation */
+    #final-result {
+      display: none;
+      margin-top: 20px;
+      padding: 20px;
+      background-color: #4CAF50;
+      color: white;
+      border-radius: 10px;
+      width: 300px;
+      margin: 30px auto;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+      opacity: 0;
+      transform: translateY(30px);
+      animation: slideIn 1s forwards;
+    }
+
+    #final-result img {
+      width: 50px;
+      height: 50px;
+    }
+
+    @keyframes slideIn {
+      0% {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">
+        <a href="index.html">Word Wizard</a>
+      </div>
+    
+    <ul>
+      <li>
+        <a href="index.html">Home</a>
+       </li>
+       <li>
+         <a class href="GameHomepage.html"> Games</a>
+        </li>
+    </ul>
+   <div>
+    <button><a href="login.html">Login</a></button>
+    <button><a href="registeration.html"> Sign Up</a></button>
+    
+   </div>
+  </div>
+</nav>
+  <div class="game-container">
+    <h1>Jumble Mania game</h1>
+    <div class="timer">Time left: <span id="timer">60</span> seconds</div>
+    <div class="letters-container" id="letters-container">
+      <!-- Random letters will appear here -->
+    </div>
+    <input type="text" id="input-word" placeholder="Enter your word">
+    <button onclick="submitWord()">Submit</button>
+    <button onclick="nextWord()" id="next-btn" style="display: none;">Next</button>
+    <div class="result">
+      <p id="message"></p>
+      <p>Coins: <span id="coins">0</span></p>
+    </div>
+  </div>
+
+  <!-- Final Result with Animated Image -->
+  <div id="final-result">
+    <img src="https://i.pinimg.com/736x/c9/dd/2b/c9dd2bc377f033ba00188f6180e8dd52.jpg" alt="coin icon">
+    <p>Game Over! You earned <span id="final-coins">0</span> coins!</p>
+  </div>
+
+  <script>
+    let words = ["apple", "banana", "cherry", "orange", "grape", "kiwi", "mango", "peach", "plum", "melon", 
+                 "berry", "lemon", "pear", "apricot", "fig", "date", "lime", "papaya", "tomato"];
+    let remainingWords = [...words]; // Copy of words to keep track of remaining words
+    let currentWord = getNextWord();
+    let letters = currentWord.split('');
+    let coins = 0;
+    let timer = 60;
+
+    document.addEventListener("DOMContentLoaded", function() {
+      shuffleLetters();
+      startTimer();
+    });
+
+    function getNextWord() {
+      if (remainingWords.length === 0) {
+        displayFinalResult();
+        return;
+      }
+      let randomIndex = Math.floor(Math.random() * remainingWords.length);
+      let word = remainingWords.splice(randomIndex, 1)[0]; // Remove word from the list
+      return word;
+    }
+
+    function shuffleLetters() {
+      let shuffledLetters = letters.slice().sort(() => Math.random() - 0.5);
+      let container = document.getElementById("letters-container");
+      container.innerHTML = "";
+      shuffledLetters.forEach(letter => {
+        let letterDiv = document.createElement("div");
+        letterDiv.textContent = letter;
+        letterDiv.onclick = () => addLetter(letterDiv);
+        container.appendChild(letterDiv);
+      });
+    }
+
+    function addLetter(letterDiv) {
+      let inputField = document.getElementById("input-word");
+      inputField.value += letterDiv.textContent;
+      letterDiv.style.backgroundColor = "#d3d3d3"; // mark it as used
+      letterDiv.onclick = null; // prevent clicking again
+    }
+
+    function submitWord() {
+      let inputField = document.getElementById("input-word");
+      let inputWord = inputField.value.trim().toLowerCase();
+      if (inputWord === currentWord) {
+        coins += 10; // Earn coins
+        document.getElementById("message").textContent = "Correct! You've earned 10 coins.";
+        document.getElementById("next-btn").style.display = "inline-block"; // Show Next button
+      } else {
+        document.getElementById("message").textContent = "Incorrect, try again!";
+      }
+      document.getElementById("coins").textContent = coins;
+    }
+
+    function nextWord() {
+      currentWord = getNextWord();
+      if (currentWord === undefined) return; // Game over condition
+      letters = currentWord.split('');
+      shuffleLetters();
+      document.getElementById("input-word").value = "";
+      document.getElementById("message").textContent = "";
+      document.getElementById("next-btn").style.display = "none"; // Hide Next button
+      timer = 60; // Reset the timer for the next round
+    }
+
+    function startTimer() {
+      let timerInterval = setInterval(function() {
+        document.getElementById("timer").textContent = timer;
+        if (timer <= 0) {
+          clearInterval(timerInterval);
+          alert("Time's up! Game Over.");
+          displayFinalResult();
+        } else {
+          timer--;
+        }
+      }, 1000);
+    }
+
+    function displayFinalResult() {
+      document.getElementById("final-coins").textContent = coins; // Display total coins earned
+      document.getElementById("final-result").style.display = "block"; // Show final result box
+      document.getElementById("next-btn").style.display = "none"; // Hide Next button
+      document.getElementById("timer").textContent = "0"; // Stop the timer
+    }
+  </script>
+</body>
+</html>

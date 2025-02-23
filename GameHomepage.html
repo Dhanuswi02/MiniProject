@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Container</title>
+    <style>
+        /* General Reset */
+        body, ul, li {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-image: url('https://i.pinimg.com/736x/45/32/77/4532774a02371c09c065e3ffbd9d1575.jpg');
+            background-repeat: no-repeat; /* Ensures the background image does not repeat */
+            background-size: cover; /* Ensures the image covers the entire screen */
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Navbar Styling */
+        nav {
+            background-color: #333;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav ul {
+            list-style-type: none;
+            display: flex;
+            margin: 0;
+        }
+
+        nav li {
+            margin: 0 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            text-transform: uppercase;
+        }
+
+        nav a:hover {
+            color: #ff9800;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            border: none;
+            cursor: pointer;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Login Button */
+        .login-btn {
+            background-color: #66a968; /* Green background */
+            color: white; /* White text */
+            transition: background-color 0.3s ease;
+        }
+
+        .login-btn a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+        }
+
+        .login-btn:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+
+        /* Sign Up Button */
+        .signup-btn {
+            background-color: #77c3dd; /* Blue background */
+            color: white; /* White text */
+            transition: background-color 0.3s ease;
+        }
+
+        .signup-btn a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+        }
+
+        .signup-btn:hover {
+            background-color: #007bb5; /* Darker blue on hover */
+        }
+
+        /* Game Container Layout */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .game {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.9);
+            margin: 20px 0;
+            padding: 20px;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .game img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .game h3 {
+            margin-top: 10px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .game p {
+            margin-top: 10px;
+            font-size: 16px;
+            color: #666;
+        }
+
+        .play-btn {
+            background-color: #4CAF50;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .play-link {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+        }
+
+        .play-btn:hover {
+            background-color: #45a049;
+        }
+
+        .play-link:hover {
+            color: yellow;
+        }
+
+        /* Carousel Styling */
+        .carousel {
+            position: relative;
+            width: 70%;  /* Full width */
+            max-width: 1000px;  /* Maximum width for larger screens */
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin: 20px auto;
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .carousel-item {
+            display: flex;  /* Flexbox to display image and details side by side */
+            min-width: 100%;  /* Ensure each item takes the full width of the container */
+            height: 60vw;  /* Set height relative to viewport width, for responsive size */
+            max-height: 400px;  /* Maximum height for large screens */
+        }
+
+        .carousel-item .image {
+            flex: 1;  /* Image takes up 50% of the space */
+            height: 100%;
+        }
+
+        .carousel-item .details {
+            flex: 1;  /* Details take up the other 50% */
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background for the details */
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .carousel-item img {
+            width: 100%;  /* Ensure image fills the container width */
+            height: 100%;  /* Ensure image takes full height */
+            object-fit: cover;  /* Cover the area while maintaining aspect ratio */
+        }
+
+        .carousel-item h3 {
+            font-size: 24px;
+            margin: 10px 0;
+            color: #fff;
+        }
+
+        .carousel-item p {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: #ddd;
+        }
+
+        .carousel-item .play-btn {
+            background-color: #4CAF50; /* Green background */
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .carousel-item .play-link {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+        }
+
+        .carousel-item .play-btn:hover {
+            background-color: #45a049;
+        }
+
+        .carousel-item .play-link:hover {
+            color: yellow;
+        }
+
+        /* Carousel Buttons */
+        .carousel-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+
+        .carousel-button.prev {
+            left: 10px;
+        }
+
+        .carousel-button.next {
+            right: 10px;
+        }
+
+        .carousel-button:focus {
+            outline: none;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Navbar Section -->
+    <nav>
+        <div class="logo">
+            <a href="index.html">Word Wizard</a>
+          </div>
+        
+        <ul>
+         <li>
+          <a href="index.html">Home</a>
+         </li>
+         <li>
+           <a class href="GameHomepage.html"> Games</a>
+          </li>
+         <li>
+          <a href="Reviews.html">Review</a>
+         </li>
+         <li>
+          <a href="terms.html">Terms&Conditions</a>
+         </li>
+        </ul>
+       <div class="buttons">
+        <button class="login-btn"><a href="login.html">Login</a></button>
+        <button class="signup-btn"><a href="registeration.html"> Sign Up</a></button>
+       </div>
+      </div>
+    </nav>
+
+    <!-- Carousel Section -->
+    <div class="carousel">
+        <div class="carousel-track">
+            <!-- First Carousel Item -->
+            <div class="carousel-item">
+                <div class="image">
+                    <img src="https://i.pinimg.com/736x/60/6e/b0/606eb0edf94e836d277126fb98de0099.jpg" alt="Game 1">
+                </div>
+                <div class="details">
+                    <h3>Visual Vocabulary</h3>
+                    <p>"Travel through enchanting lands filled with images that hold the key to your success. Decode visual clues, expand your vocabulary, and embark on a thrilling word-filled quest!"</p>
+                    <button class="play-btn"><a href="visual vocabulary.html" class="play-link">Play Now</a></button>
+                </div>
+            </div>
+
+            <!-- Second Carousel Item -->
+            <div class="carousel-item">
+                <div class="image">
+                    <img src="https://i.pinimg.com/736x/4f/bf/12/4fbf127415f1f6992ddaa71ef7839917.jpg" alt="Jumble Mania">
+                </div>
+                <div class="details">
+                    <h3>Jumble Mania</h3>
+                    <p> "Welcome to Jumble Mania! The letters are scrambled, and it’s up to you to put them in the correct order to form a word. The faster you solve, the higher your score!"</p>   
+                    <button class="play-btn"><a href="Jumble Mania.html" class="play-link">Play Now</a></button>
+
+                </div>
+            </div>
+
+            <!-- Third Carousel Item -->
+            <div class="carousel-item">
+                <div class="image">
+                    <img src="https://i.pinimg.com/736x/50/ca/9b/50ca9b44be55b5380e8c350451017060.jpg" alt="Vocab Quest">
+                </div>
+                <div class="details">
+                    <h3>Vocab Quest</h3>
+                    <p>"Your quest for vocabulary greatness begins now! This game tailors word challenges to your age, helping you build an impressive vocabulary one quiz at a time. Join the quest and become a vocab master!"</p>
+                    <button class="play-btn"><a href="VocabQuest.html" class="play-link">Play Now</a></button>
+
+                </div>
+            </div>
+            
+            <!-- Third Carousel Item -->
+            <div class="carousel-item">
+                <div class="image">
+                    <img src="https://via.placeholder.com/600x300/7fff7f/333333?text=Slide+3" alt="Slide 3">
+                </div>
+                <div class="details">
+                    <h3>Exciting Adventure</h3>
+                    <p>"Embark on a new adventure filled with challenges, rewards, and fun. Solve puzzles and unlock your potential!"</p>
+                    <button class="play-btn"><a href="AdventureGame.html" class="play-link">Play Now</a></button>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-button prev">&#10094;</button>
+        <button class="carousel-button next">&#10095;</button>
+    </div>
+
+    <script>
+        const track = document.querySelector('.carousel-track');
+        const prevButton = document.querySelector('.prev');
+        const nextButton = document.querySelector('.next');
+        let currentIndex = 0;
+        const items = document.querySelectorAll('.carousel-item');
+
+        const updateCarousel = () => {
+            const offset = -currentIndex * 100; 
+            track.style.transform = `translateX(${offset}%)`;
+        };
+
+        prevButton.addEventListener('click', () => {
+            currentIndex = (currentIndex === 0) ? items.length - 1 : currentIndex - 1;
+            updateCarousel();
+        });
+
+        nextButton.addEventListener('click', () => {
+            currentIndex = (currentIndex === items.length - 1) ? 0 : currentIndex + 1;
+            updateCarousel();
+        });
+    </script>
+</body>
+</html>

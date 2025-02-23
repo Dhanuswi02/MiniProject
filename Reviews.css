@@ -1,0 +1,118 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-image: url("https://i.pinimg.com/736x/48/02/92/48029284addf37c7c199c38f5f484d7a.jpg");
+    color: #333;
+    margin: 0;
+    padding: 0;
+    background-repeat: no-repeat;
+    background-size: 1600px 800px;
+}
+#logo {
+    width: 80px;
+    height:80px;
+    border-radius: 50%;
+}
+nav {
+    background-color:rgba(128, 177, 196, 0.79);
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    color: white;
+}
+nav a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    display: inline-block;
+}
+nav a:hover {
+    background-color: #575757;
+    border-radius: 4px;
+}
+nav .nav-left a {
+    margin-right: 10px;
+}
+nav .nav-right button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-left: 10px;
+    border-radius: 4px;
+}
+nav .nav-right button:hover {
+    background-color: #45a049;
+}
+
+h2 {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.review-form {
+    width: 40%;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+}
+
+.review-form h3 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.review-form input,
+.review-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.review-form button {
+    width: 50%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.review-form button:hover {
+    background-color: #0056b3;
+}
+
+#review-list {
+    width: 60%;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+.review {
+    background-color: #fff;
+    padding: 15px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+.review .name {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.review .text {
+    font-size: 14px;
+    line-height: 1.5;
+}

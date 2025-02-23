@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Word Wizard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>word wizard</title>
+    <link rel="stylesheet" href="Reviews.css">
+    
+</head>
+<body>
+
+    <nav>
+        <img src="c:\Users\varsh\OneDrive\Pictures\Screenshots\Screenshot 2024-12-24 192136.png" alt="Company Logo" id="logo">
+        <div class="nav-left">
+            <a href="index.html">Home</a>
+            <a href="GameHomepage.html">Games</a>
+            <a href="terms.html">Terms&Conditions</a>
+        </div>
+        <div class="nav-right">
+            <button onclick="window.location.href='login.html'">Login</button>
+            <button onclick="window.location.href='registeration.html'">Sign Up</button>
+        </div>
+    </nav>
+
+    <h2>Client Reviews</h2>
+    <div class="container">
+    <div class="review-form">
+        <h3>Share your experience</h3>
+        <form id="reviewForm">
+            <input type="text" id="name" placeholder="Your Name" required>
+            <textarea id="review" placeholder="Write your review" required></textarea>
+            <center><button type="submit">Submit Review</button></center>
+        </form>
+    </div>
+    </div>
+    <div id="review-list">
+        <!-- Dynamic reviews will be inserted here -->
+    </div>
+    <script src="Reviews.js"></script>
+</body>
+</html>
+  

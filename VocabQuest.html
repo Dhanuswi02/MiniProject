@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Wizard Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('https://i.pinimg.com/736x/2a/27/6a/2a276acf7ba32bfca77e96742353bdc6.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            text-align: center;
+        }
+        nav {
+            background-color: #333;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav ul {
+            list-style-type: none;
+            display: flex;
+            margin: 0;
+        }
+
+        nav li {
+            margin: 0 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 18px;
+            text-transform: uppercase;
+        }
+
+        nav a:hover {
+            color: #8fc1c9;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            border: none;
+            cursor: pointer;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Login Button */
+        .login-btn {
+            background-color: #00d9ff; /* Light blue background */
+            color: #fff; /* White text */
+            transition: background-color 0.3s ease;
+        }
+
+        .login-btn a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .login-btn:hover {
+            background-color: #00a3cc; /* Darker blue on hover */
+        }
+
+        /* Sign Up Button */
+        .signup-btn {
+            background-color: #ff7f50; /* Coral background */
+            color: #fff; /* White text */
+            transition: background-color 0.3s ease;
+        }
+
+        .signup-btn a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .signup-btn:hover {
+            background-color: #e67300; /* Darker coral on hover */
+        }
+
+.container
+ {
+            padding: 20px;
+            margin-top: 30px;
+        }
+        .quiz-section {
+            display: none;
+            margin: 30px auto;
+            max-width: 700px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .quiz-section h2 {
+            margin-bottom: 20px;
+            animation: fadeIn 1s ease-in-out;
+        }
+        .quiz-section button {
+            background: #12a4f3;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1em;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 20px;
+            transition: transform 0.3s ease-in-out;
+        }
+        .quiz-section button:hover {
+            transform: scale(1.1);
+        }
+        #score-display {
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        #timer {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            animation: pulse 1s infinite;
+        }
+        .feedback {
+            margin-top: 10px;
+            font-size: 1em;
+            color: #f1c40f;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes pulse {
+            0% { color: #fff; }
+            50% { color: #f39c12; }
+            100% { color: #fff; }
+        }
+        @media (max-width: 600px) {
+            body {
+                background-size: cover;
+                font-size: 0.9em;
+            }
+            .quiz-section {
+                max-width: 90%;
+                padding: 15px;
+            }
+            .quiz-section button {
+                padding: 8px 15px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <a href="index.html">Word Wizard</a>
+          </div>
+        
+        <ul>
+            <li>
+                <a href="index.html">Home</a>
+               </li>
+               <li>
+                 <a class href="GameHomepage.html"> Games</a>
+                </li>
+        </ul>
+       <div>
+        <button class="login-btn"><a href="login.html">Login</a></button>
+        <button class="signup-btn"><a href="registeration.html"> Sign Up</a></button>
+        
+       </div>
+      </div>
+    </nav>
+    <div class="container" style="padding-top: 60px;"></div>
+        <label for="age-group">Select Age Group:</label>
+        <select id="age-group" onchange="loadQuiz()">
+            <option value="">--Select--</option>
+            <option value="5-12">5-12 years</option>
+            <option value="13-17">13-17 years</option>
+            <option value="18+">18+ years</option>
+        </select>
+    </div>
+
+    <div id="quiz-container" class="quiz-section">
+        <h2 id="quiz-title">Quiz</h2>
+        <div id="timer"></div>
+        <div id="questions-container"></div>
+        <button id="prev-button" onclick="prevQuestion()" style="display: none;">Previous</button>
+        <button id="next-button" onclick="nextQuestion()">Next</button>
+        <button id="submit-button" onclick="submitQuiz()" style="display: none;">Submit Quiz</button>
+        <div id="score-display"></div>
+        <div class="feedback" id="feedback"></div>
+    </div>
+    
+    <script>
+        let timerInterval;
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        const questions = {
+            '5-12': [
+                { 
+                    question: "What is the opposite of 'big'?", 
+                    options: ["Small", "Tall", "Wide"], 
+                    answer: "Small",
+                    image: "https://static.vecteezy.com/system/resources/previews/002/306/338/non_2x/opposite-adjectives-words-with-big-and-small-free-vector.jpg"
+                },
+                { 
+                    question: "What color is the sky?", 
+                    options: ["Blue", "Green", "Red"], 
+                    answer: "Blue",
+                    image: "https://wallpaperaccess.com/full/398864.jpg"
+                },
+                { 
+                    question: "Which fruit is red and has seeds?", 
+                    options: ["Banana", "Apple", "Grapes"], 
+                    answer: "Apple",
+                    image: "https://thumbs.dreamstime.com/z/big-red-apple-front-bunch-bananas-ripe-indian-green-grape-isolated-white-background-171435141.jpg"
+                },
+                { 
+                    question: "Which shape has three sides?", 
+                    options: ["Square", "Triangle", "Circle"], 
+                    answer: "Triangle",
+                    image: "https://image3.slideserve.com/6723420/shapes1-l.jpg"
+                },
+                { 
+                    question: "What do bees make?", 
+                    options: ["Honey", "Silk", "Sugar"],
+                    answer: "Honey",
+                    image: "https://thumbs.dreamstime.com/z/yellow-cartoon-beehive-honey-bee-family-isolated-white-background-internal-structure-beehive-yellow-cartoon-beehive-159107585.jpg"
+                }
+            ],
+            '13-17': [
+                { 
+                    question: "Choose the synonym of 'Happy'", 
+                    options: ["Sad", "Joyful", "Angry"], 
+                    answer: "Joyful"
+                },
+                { 
+                    question: "Find the antonym of 'Easy'", 
+                    options: ["Simple", "Difficult", "Soft"], 
+                    answer: "Difficult"
+                },
+                { 
+                    question: "What does 'Benevolent' mean?", 
+                    options: ["Kind", "Cruel", "Strong"], 
+                    answer: "Kind"
+                },
+                { 
+                    question: "What is the meaning of 'Abstain'?", 
+                    options: ["Refrain", "Consume", "Agree"], 
+                    answer: "Refrain"
+                },
+                { 
+                    question: "Which word means 'very small'?", 
+                    options: ["Tiny", "Huge", "Normal"], 
+                    answer: "Tiny"
+                }
+            ],
+            '18+': [
+                { 
+                    question: "What does 'Eloquent' mean?", 
+                    options: ["Well-spoken", "Loud", "Confused"], 
+                    answer: "Well-spoken"
+                },
+                { 
+                    question: "Choose the correct spelling:", 
+                    options: ["Accommodation", "Acommodation", "Accomodation"], 
+                    answer: "Accommodation"
+                },
+                { 
+                    question: "What does 'Ambiguous' mean?", 
+                    options: ["Unclear", "Clear", "Detailed"], 
+                    answer: "Unclear"
+                },
+                { 
+                    question: "What does 'Candid' mean?", 
+                    options: ["Honest", "Deceitful", "Fearful"], 
+                    answer: "Honest"
+                },
+                { 
+                    question: "Which word is a synonym of 'Diligent'?", 
+                    options: ["Lazy", "Hardworking", "Careless"], 
+                    answer: "Hardworking"
+                }
+            ]
+        };
+    
+        function startTimer(duration) {
+            const timerDisplay = document.getElementById('timer');
+            let time = duration;
+    
+            timerInterval = setInterval(() => {
+                const minutes = Math.floor(time / 60);
+                const seconds = time % 60;
+                timerDisplay.textContent = `Time Left: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                time--;
+    
+                if (time < 0) {
+                    clearInterval(timerInterval);
+                    submitQuiz();
+                }
+            }, 1000);
+        }
+    
+        function loadQuiz() {
+            const ageGroup = document.getElementById('age-group').value;
+            if (!ageGroup) return;
+    
+            userAnswers = new Array(questions[ageGroup].length).fill(null);
+            currentQuestionIndex = 0;
+    
+            document.getElementById('quiz-container').style.display = 'block';
+            displayQuestion();
+            startTimer(300); // 5-minute timer
+        }
+    
+        function displayQuestion() {
+            const ageGroup = document.getElementById('age-group').value;
+            const questionData = questions[ageGroup][currentQuestionIndex];
+    
+            const questionsContainer = document.getElementById('questions-container');
+            questionsContainer.innerHTML = `
+                <p>${currentQuestionIndex + 1}. ${questionData.question}</p>
+                ${questionData.image ? `<img src="${questionData.image}" alt="Question Image" style="max-width: 100%; height: auto;">` : ''}
+                ${questionData.options.map(option => `
+                    <label>
+                        <input type="radio" name="question-${currentQuestionIndex}" value="${option}" 
+                        ${userAnswers[currentQuestionIndex] === option ? 'checked' : ''}>
+                        ${option}
+                    </label><br>
+                `).join('')}
+            `;
+    
+            document.getElementById('prev-button').style.display = currentQuestionIndex > 0 ? 'inline-block' : 'none';
+            document.getElementById('next-button').style.display = currentQuestionIndex < questions[ageGroup].length - 1 ? 'inline-block' : 'none';
+            document.getElementById('submit-button').style.display = currentQuestionIndex === questions[ageGroup].length - 1 ? 'inline-block' : 'none';
+        }
+    
+        function prevQuestion() {
+            saveAnswer();
+            currentQuestionIndex--;
+            displayQuestion();
+        }
+    
+        function nextQuestion() {
+            saveAnswer();
+            currentQuestionIndex++;
+            displayQuestion();
+        }
+    
+        function saveAnswer() {
+            const selectedOption = document.querySelector(`input[name="question-${currentQuestionIndex}"]:checked`);
+            if (selectedOption) {
+                userAnswers[currentQuestionIndex] = selectedOption.value;
+            }
+        }
+    
+        function submitQuiz() {
+    clearInterval(timerInterval);
+
+    const ageGroup = document.getElementById('age-group').value;
+    const questionsForAge = questions[ageGroup];
+
+    if (!questionsForAge) {
+        alert('Please select a valid age group.');
+        return;
+    }
+
+    let score = 0;
+    userAnswers.forEach((answer, index) => {
+        if (answer === questionsForAge[index].answer) {
+            score++;
+        }
+    });
+
+    document.getElementById('score-display').textContent = `Your score is ${score}/${questionsForAge.length}!`;
+    document.getElementById('feedback').textContent = score < questionsForAge.length / 3
+        ? "Keep practicing! You'll improve with time."
+        : "Great job! You're doing well!";
+
+    // Add link to the PDF download page after quiz submission
+    const pdfDownloadLink = document.createElement('div');
+    pdfDownloadLink.innerHTML = `
+        <p>Want to review your progress? Download the vocabulary builder PDF here:</p>
+        <a href="pdf.html">
+            <button class="download-btn">Download Vocabulary Builder PDF</button>
+        </a>
+    `;
+    document.getElementById('feedback').appendChild(pdfDownloadLink);
+}
+
+    </script>
+    
+</body>
+</html>    

@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn Words with Images</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-image: url('Bee-image.png');
+            background-repeat: no-repeat;
+            background-size: 1600px 800px;
+            color: #fff;
+            
+        }
+        nav 
+        {
+         background-color: #343a40; /* Dark background for nav */
+         color: white;
+         padding: 10px 20px;
+         display: flex;
+         justify-content: space-between; /* Space between menu and buttons */
+         align-items: center; /* Align items vertically */
+         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+         }
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 20px; /* Spacing between menu items */
+}
+
+nav ul li {
+  position: relative;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+nav ul li a:hover {
+  background-color: #ada572; /* Slightly lighter dark background */
+  color: #f8f9fa; /* Light text color on hover */
+}
+
+.flex {
+  display: flex;
+  gap: 15px;
+}
+
+.flex a {
+  text-decoration: none;
+  padding: 8px 15px;
+  border: 1px solid white;
+  border-radius: 5px;
+  color: white;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.flex a:hover {
+  background-color: #495057;
+  border-color: #adb5bd; /* Subtle light border on hover */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  nav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  nav ul {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .flex {
+    margin-top: 10px;
+    gap: 10px;
+  }
+}
+.logo a {
+  text-decoration: none;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.logo a:hover {
+  color: #dbb239;
+}
+
+        h1 {
+            color: #ffb13b;
+        }
+
+        #game-container {
+            margin: 20px auto;
+            padding: 20px;
+            max-width: 600px;
+            background: rgba(66, 65, 65, 0.7);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            perspective: 1000px;
+        }
+
+        .card {
+            width: 300px;
+            height: 300px;
+            margin: 0 auto;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s;
+        }
+
+        .card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+
+        .card-front {
+            background: #ffeb3b;
+        }
+
+        .card-back {
+            background: #4caf50;
+            color: #fff;
+            transform: rotateY(180deg);
+        }
+
+        #answer {
+            width: 80%;
+            padding: 15px;
+            font-size: 16px;
+            color: #333;
+            background-color: #f9f9f9;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        #answer:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 4px 6px rgba(0, 255, 0, 0.2);
+            background-color: #e8f5e9;
+        }
+
+        #answer::placeholder {
+            color: #aaa;
+            font-style: italic;
+        }
+
+        .centered-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .centered-container input {
+            display: inline-block;
+        }
+
+        button {
+            background-color: #ffeb3b;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #fdd835;
+        }
+
+        #timer {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .bee-rotation {
+            position: absolute;
+            top: 20%;
+            right: 20%;
+            animation: rotateBee 5s linear infinite;
+            width: 100px;
+            height: 100px;
+        }
+
+        @keyframes rotateBee {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .quote-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .quote {
+            font-size: 24px;
+            color: white;
+            font-weight: bold;
+        }
+
+        #start-button {
+            font-size: 20px;
+            padding: 15px 30px;
+            background-color: #ffb13b;
+            color: black;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        #start-button:hover {
+            background-color: #fdd835;
+        }
+
+    </style>
+</head>
+<body>
+        <nav>
+            <div class="logo">
+                <a href="index.html">Word Wizard</a>
+              </div>
+            
+            <ul>
+             <li>
+              <a href="index.html">Home</a>
+             </li>
+             <li>
+               <a class href="GameHomepage.html"> Games</a>
+              </li>
+            </ul>
+           <div>
+            <button><a href="login.html">Login</a></button>
+            <button><a href="registeration.html"> Sign Up</a></button>
+            
+           </div>
+          </div>
+        </nav>
+
+    <div class="quote-container">
+        <p class="quote" style="color: black;">"With every new word, you gain the power to express, connect, and inspire."</p>
+        <button id="start-button" onclick="startGame()">Start</button>
+    </div>
+
+    <div id="game-container" style="display: none;">
+        <div class="card" id="card">
+            <div class="card-face card-front">
+                <img id="word-image" src="" alt="Word Image" style="width: 100%; height: 100%; border-radius: 8px;">
+            </div>
+            <div class="card-face card-back">
+                <p id="answer-text" style="font-size: 24px;">Answer</p>
+            </div>
+        </div>
+        <p id="timer">Time remaining: <span id="time">5</span> seconds</p>
+        <div class="centered-container">
+            <input type="text" id="answer" placeholder="Type your answer here">
+        </div>
+        <br>
+        <button id="submit-btn" onclick="checkAnswer()" style="display: none;">Submit Answer</button>
+        <button id="next-btn" onclick="nextWord()" style="display: none;">Next Word</button>
+        <p id="result" style="font-size: 18px; font-weight: bold;"></p>
+    </div>
+
+    <audio id="background-music" loop>
+        <source src="c:\Users\varsh\Downloads\funny-playful-music-children-baby-kids-background-intro-theme-272190.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <button onclick="toggleMusic()" style="margin-top: 20px;">Music</button>
+
+    <img src="http://ts4.mm.bing.net/th?id=OIP.Dtiyr13P140AaAqCxdtKvQHaHa&pid=15.1" class="bee-rotation" alt="Bee">
+
+    <script>
+        const words = [
+            { image: 'https://img.freepik.com/premium-vector/smiling-apple-with-eyes-cute-funny-apple-fruit-cartoon-style-vector-design-illustration_1063541-75.jpg', name: 'apple' },
+            { image: 'https://png.pngtree.com/png-vector/20240130/ourlarge/pngtree-cute-dog-happy-cartoon-ai-generative-png-image_11573099.png', name: 'dog' },
+            { image: 'https://th.bing.com/th/id/OIP.-x-BTmWmhYDO5BdFuLVTZgHaHa?rs=1&pid=ImgDetMain', name: 'sun' },
+            { image: 'https://clipartix.com/wp-content/uploads/2016/08/Cars-cliparts.jpg', name: 'car' },
+        ];
+
+        let currentWordIndex = 0;
+        let timer;
+        let timeLeft = 10;
+        const card = document.getElementById('card');
+        const backgroundMusic = document.getElementById('background-music');
+        backgroundMusic.volume = 0.5;
+
+        function toggleMusic() {
+            if (backgroundMusic.paused) {
+                backgroundMusic.play();
+            } else {
+                backgroundMusic.pause();
+            }
+        }
+
+        function startGame() {
+            document.querySelector('.quote-container').style.display = 'none';
+            document.getElementById('game-container').style.display = 'block';
+            loadWord();
+        }
+
+        function loadWord() {
+            clearInterval(timer);
+            timeLeft = 10;
+            document.getElementById('time').textContent = timeLeft;
+
+            const word = words[currentWordIndex];
+            document.getElementById('word-image').src = word.image;
+            document.getElementById('answer-text').textContent = word.name;
+            document.getElementById('answer').style.display = 'none';
+            document.getElementById('submit-btn').style.display = 'none';
+            document.getElementById('next-btn').style.display = 'none';
+            document.getElementById('result').textContent = '';
+            card.classList.remove('flipped');
+
+            startTimer(() => {
+                card.classList.add('flipped');
+                setTimeout(() => {
+                    card.classList.remove('flipped'); // Flip back to the front
+                    document.getElementById('answer').style.display = 'block';
+                    document.getElementById('submit-btn').style.display = 'inline-block';
+                }, 2000); // Adjust time as needed
+            });
+        }
+
+        function startTimer(callback) {
+            timer = setInterval(() => {
+                timeLeft--;
+                document.getElementById('time').textContent = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    callback();
+                }
+            }, 1000);
+        }
+
+        function checkAnswer() {
+            const userAnswer = document.getElementById('answer').value.trim().toLowerCase();
+            const correctAnswer = words[currentWordIndex].name;
+            if (userAnswer === correctAnswer) {
+                document.getElementById('result').textContent = 'Correct! 🎉';
+                document.getElementById('result').style.color = 'white';
+            } else {
+                document.getElementById('result').textContent = `Oops! The correct answer is ${correctAnswer}.`;
+                document.getElementById('result').style.color = 'red';
+            }
+            document.getElementById('next-btn').style.display = 'inline-block';
+        }
+
+        function nextWord() {
+            currentWordIndex = (currentWordIndex + 1) % words.length;
+            loadWord();
+        }
+
+        // Load the first word on page load
+        loadWord();
+
+        card.addEventListener('click', () => {
+            card.classList.add('flipped');
+        });
+    </script>
+</body>
+</html>
